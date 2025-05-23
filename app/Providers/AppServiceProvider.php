@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\UrlGenerator; // Tambahkan baris ini
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,8 +19,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(UrlGenerator $url): void // Tambahkan UrlGenerator sebagai parameter
     {
         Paginator::useBootstrap();
+
+        // Tambahkan blok kode ini untuk memaksa HTTPS di produksi
+        if (env('APP_ENV') === 'production') {
+            $url->forceScheme('https');
+        }
     }
 }
