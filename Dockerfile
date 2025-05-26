@@ -13,9 +13,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql zip intl
 
 COPY composer.json composer.lock ./
+COPY . .
 RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --verbose
 
-COPY . .
+
 
 RUN a2enmod rewrite
 
