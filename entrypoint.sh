@@ -1,3 +1,4 @@
+#!/bin/sh
 set -e
 echo "Running entrypoint tasks..."
 php artisan config:cache
