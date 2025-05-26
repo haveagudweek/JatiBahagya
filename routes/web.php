@@ -12,7 +12,8 @@ Auth::routes();
 Route::get('/verify', [VerificationController::class, 'showVerificationForm'])->name('verify');
 Route::post('/verify', [VerificationController::class, 'verify'])->name('verify-post');
 Route::post('/resend-otp', [VerificationController::class, 'resendOtp'])->name('resend.otp');
-
+// Tambahkan ini untuk health check Render
+Route::get('/api/health', function () {return response()->json(['status' => 'ok']);});
 // ✅ Landing Page (Terbuka untuk semua)
 Route::get('/', [App\Http\Controllers\LandingController::class, 'index'])->name('landing');
 Route::get('/contact', [App\Http\Controllers\LandingController::class, 'contact'])->name('contact');
