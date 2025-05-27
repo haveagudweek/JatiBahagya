@@ -29,6 +29,10 @@ return [
     */
 
     'disks' => [
+        
+        'cloudinary' => [
+             'driver' => 'cloudinary',
+        ],
 
         'local' => [
             'driver' => 'local',
