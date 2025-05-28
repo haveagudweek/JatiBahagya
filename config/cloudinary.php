@@ -9,29 +9,33 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cloudinary Configuration
-    |--------------------------------------------------------------------------
-    |
-    | An HTTP or HTTPS URL to notify your application (a webhook) when the process of uploads, deletes, and any API
-    | that accepts notification_url has completed.
-    |
-    |
-    */
     'notification_url' => env('CLOUDINARY_NOTIFICATION_URL'),
 
     /*
     |--------------------------------------------------------------------------
-    | Cloudinary Configuration
+    | Cloudinary URL (Primary Method)
     |--------------------------------------------------------------------------
-    |
-    | Here you may configure your Cloudinary settings. Cloudinary is a cloud hosted
-    | media management service for all file uploads, storage, delivery and transformation needs.
-    |
-    |
+    | Jika CLOUDINARY_URL di-set di .env atau environment server, ini akan digunakan.
+    | Jika tidak, ia akan mencoba membangunnya dari CLOUDINARY_KEY, SECRET, dan CLOUD_NAME.
+    | Namun, kita juga akan menyediakan key individual di bawah sebagai fallback yang lebih kuat.
     */
-    'cloud_url' => env('CLOUDINARY_URL', 'cloudinary://'.env('CLOUDINARY_KEY').':'.env('CLOUDINARY_SECRET').'@'.env('CLOUDINARY_CLOUD_NAME')),
+    'cloud_url' => env('CLOUDINARY_URL', 
+        (env('CLOUDINARY_API_KEY') && env('CLOUDINARY_API_SECRET') && env('CLOUDINARY_CLOUD_NAME')) ?
+        'cloudinary://'.env('CLOUDINARY_API_KEY').':'.env('CLOUDINARY_API_SECRET').'@'.env('CLOUDINARY_CLOUD_NAME') :
+        null
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Individual Cloudinary Credentials (Sangat Direkomendasikan)
+    |--------------------------------------------------------------------------
+    | Service Provider akan mencoba membaca ini jika cloud_url parsing bermasalah
+    | atau sebagai sumber utama tergantung implementasi package.
+    | Pastikan environment variable-nya sudah di-set di Render.
+    */
+    'cloud_name' => env('CLOUDINARY_CLOUD_NAME', ''),
+    'api_key'    => env('CLOUDINARY_API_KEY', ''),
+    'api_secret' => env('CLOUDINARY_API_SECRET', ''),
 
     /**
      * Upload Preset From Cloudinary Dashboard
